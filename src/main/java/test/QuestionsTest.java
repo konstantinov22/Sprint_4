@@ -5,22 +5,46 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import pageobject.MainPage;
 
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.concurrent.TimeUnit;
 
 import static base.url.URL.APP_URL;
 
-public class QuestionsTestChrome {
-    WebDriver webDriver;
-    MainPage mainPage;
+@RunWith(Parameterized.class)
+public class QuestionsTest {
+    private WebDriver webDriver;
+    private String browser;
+    private MainPage mainPage;
+
+    @Parameterized.Parameters(name = "{index}: Browser = {0}")
+    public static Collection<Object[]> data() {
+        return Arrays.asList(new Object[][]{
+                {"chrome"},
+                {"firefox"}
+        });
+    }
+
+    public QuestionsTest(String browser) {
+        this.browser = browser;
+    }
 
     @Before
     public void init() {
-        WebDriverManager.chromedriver().setup();
-        webDriver = new ChromeDriver();
+        if ("chrome".equals(browser)) {
+            WebDriverManager.chromedriver().setup();
+            webDriver = new ChromeDriver();
+        } else if ("firefox".equals(browser)) {
+            WebDriverManager.firefoxdriver().setup();
+            webDriver = new FirefoxDriver();
+        }
         webDriver.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
         mainPage = new MainPage(webDriver);
         webDriver.get(APP_URL);
@@ -86,8 +110,8 @@ public class QuestionsTestChrome {
 
     @After
     public void teardown() {
-        webDriver.quit();
+        if (webDriver != null) {
+            webDriver.quit();
+        }
     }
 }
-
-

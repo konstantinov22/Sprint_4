@@ -7,28 +7,52 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.concurrent.TimeUnit;
 
 import static base.url.URL.APP_URL;
 
-public class OrderTestFirefox {
-    WebDriver webDriver;
+@RunWith(Parameterized.class)
+public class OrderTest {
+    private WebDriver webDriver;
+    private String browser;
     MainPage mainPage;
     ForWhomPage forWhomPage;
     AboutRentPage aboutRentPage;
 
+    @Parameterized.Parameters(name = "{index}: Browser = {0}")
+    public static Collection<Object[]> data() {
+        return Arrays.asList(new Object[][]{
+                {"chrome"},
+                {"firefox"}
+        });
+    }
+
+    public OrderTest(String browser) {
+        this.browser = browser;
+    }
+
     @Before
     public void init() {
-        WebDriverManager.firefoxdriver().setup();;
-        webDriver = new FirefoxDriver();
+        if ("chrome".equals(browser)) {
+            WebDriverManager.chromedriver().setup();
+            webDriver = new ChromeDriver();
+        } else if ("firefox".equals(browser)) {
+            WebDriverManager.firefoxdriver().setup();
+            webDriver = new FirefoxDriver();
+        }
         webDriver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
     }
 
     @Test
-    public void checkOrderOfScooter1() {
+    public void checkOrderOfScooterMaximTest() {
         mainPage = new MainPage(webDriver);
 
         webDriver.get(APP_URL);
@@ -36,7 +60,7 @@ public class OrderTestFirefox {
         mainPage.clickOnOrderButton();
 
         forWhomPage = new ForWhomPage(webDriver);
-        forWhomPage.fillFirstOrderPage("Максим","Константинов","Ротмистрова 27", "Спортивная", "+79201869974");
+        forWhomPage.fillFirstOrderPage("Максим", "Константинов", "Ротмистрова 27", "Спортивная", "+79201869974");
 
         aboutRentPage = new AboutRentPage(webDriver);
         aboutRentPage.fillSecondOrderPage("08.12.2024", "сутки", "серая безысходность", "Жду самокат");
@@ -46,7 +70,7 @@ public class OrderTestFirefox {
     }
 
     @Test
-    public void checkOrderOfScooter() {
+    public void checkOrderOfScooterOlgaTest() {
         mainPage = new MainPage(webDriver);
 
         webDriver.get(APP_URL);
@@ -54,7 +78,7 @@ public class OrderTestFirefox {
         mainPage.clickOnOrderButton();
 
         forWhomPage = new ForWhomPage(webDriver);
-        forWhomPage.fillFirstOrderPage("Ольга","Хрусталева","Калинина 94", "Черкизовская", "+79105368481");
+        forWhomPage.fillFirstOrderPage("Ольга", "Хрусталева", "Калинина 94", "Черкизовская", "+79105368481");
 
         aboutRentPage = new AboutRentPage(webDriver);
         aboutRentPage.fillSecondOrderPage("15.12.2024", "двое суток", "чёрный жемчуг", "Пишите когда будете подьезжать");
@@ -65,8 +89,8 @@ public class OrderTestFirefox {
 
     @After
     public void closeBrowser() {
-        webDriver.quit();
+        if (webDriver != null) {
+            webDriver.quit();
+        }
     }
 }
-
-
