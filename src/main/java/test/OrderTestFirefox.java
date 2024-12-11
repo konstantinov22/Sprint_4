@@ -1,8 +1,8 @@
-package Firefox.test;
+package test;
 
-import Firefox.pageobject.AboutRentPage;
-import Firefox.pageobject.ForWhomPage;
-import Firefox.pageobject.MainPage;
+import pageobject.AboutRentPage;
+import pageobject.ForWhomPage;
+import pageobject.MainPage;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.After;
 import org.junit.Before;
@@ -12,9 +12,9 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 
 import java.util.concurrent.TimeUnit;
 
-import static Chrome.URL.URL.APP_URL;
+import static base.url.URL.APP_URL;
 
-public class OrderTest {
+public class OrderTestFirefox {
     WebDriver webDriver;
     MainPage mainPage;
     ForWhomPage forWhomPage;

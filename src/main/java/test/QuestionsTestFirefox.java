@@ -1,6 +1,6 @@
-package Firefox.test;
+package test;
 
-import Firefox.pageobject.MainPage;
+import pageobject.MainPage;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.After;
 import org.junit.Assert;
@@ -11,9 +11,9 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 
 import java.util.concurrent.TimeUnit;
 
-import static Chrome.URL.URL.APP_URL;
+import static base.url.URL.APP_URL;
 
-public class QuestionsTest {
+public class QuestionsTestFirefox {
     WebDriver webDriver;
     MainPage mainPage;
 
