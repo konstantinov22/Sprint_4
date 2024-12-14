@@ -5,10 +5,12 @@ import org.openqa.selenium.WebDriver;
 
 public class ForWhomPage {
     WebDriver webDriver;
+
+    private String metroStationXpath = "//*[text()='%s']";
+
     public ForWhomPage(WebDriver webDriver) {
         this.webDriver = webDriver;
     }
-
 
     private By nameInput = By.xpath(".//div[@class='Input_InputContainer__3NykH']/input[@placeholder='* Имя']");
     private By surnameInput = By.xpath(".//div[@class='Input_InputContainer__3NykH']/input[@placeholder='* Фамилия']");
@@ -31,15 +33,17 @@ public class ForWhomPage {
 
     public void clickOnMetroStation(String metro) {
         webDriver.findElement(metroInput).click();
-        webDriver.findElement(By.xpath(String.format("//*[text()='%s']",metro))).click();
+        webDriver.findElement(By.xpath(String.format(metroStationXpath, metro))).click();
     }
 
     public void writeTelephone(String telephone) {
         webDriver.findElement(telephoneInput).sendKeys(telephone);
     }
+
     public void clickOnContinueButton() {
         webDriver.findElement(continueButton).click();
     }
+
     public void fillFirstOrderPage(String name, String surname, String adress, String metro, String telephone) {
         writeName(name);
         writeSurname(surname);

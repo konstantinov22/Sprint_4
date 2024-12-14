@@ -24,16 +24,36 @@ public class QuestionsTest {
     private String browser;
     private MainPage mainPage;
 
-    @Parameterized.Parameters(name = "{index}: Browser = {0}")
+    // Параметры для тестирования: индексы вопросов и их ответы
+    @Parameterized.Parameters(name = "{index}: Browser = {0}, Question = {1}")
     public static Collection<Object[]> data() {
         return Arrays.asList(new Object[][]{
-                {"chrome"},
-                {"firefox"}
+                {"chrome", 0, "Сутки — 400 рублей. Оплата курьеру — наличными или картой."},
+                {"chrome", 1, "Пока что у нас так: один заказ — один самокат. Если хотите покататься с друзьями, можете просто сделать несколько заказов — один за другим."},
+                {"chrome", 2, "Допустим, вы оформляете заказ на 8 мая. Мы привозим самокат 8 мая в течение дня. Отсчёт времени аренды начинается с момента, когда вы оплатите заказ курьеру. Если мы привезли самокат 8 мая в 20:30, суточная аренда закончится 9 мая в 20:30."},
+                {"chrome", 3, "Только начиная с завтрашнего дня. Но скоро станем расторопнее."},
+                {"chrome", 4, "Пока что нет! Но если что-то срочное — всегда можно позвонить в поддержку по красивому номеру 1010."},
+                {"chrome", 5, "Самокат приезжает к вам с полной зарядкой. Этого хватает на восемь суток — даже если будете кататься без передышек и во сне. Зарядка не понадобится."},
+                {"chrome", 6, "Да, пока самокат не привезли. Штрафа не будет, объяснительной записки тоже не попросим. Все же свои."},
+                {"chrome", 7, "Да, обязательно. Всем самокатов! И Москве, и Московской области."},
+                {"firefox", 0, "Сутки — 400 рублей. Оплата курьеру — наличными или картой."},
+                {"firefox", 1, "Пока что у нас так: один заказ — один самокат. Если хотите покататься с друзьями, можете просто сделать несколько заказов — один за другим."},
+                {"firefox", 2, "Допустим, вы оформляете заказ на 8 мая. Мы привозим самокат 8 мая в течение дня. Отсчёт времени аренды начинается с момента, когда вы оплатите заказ курьеру. Если мы привезли самокат 8 мая в 20:30, суточная аренда закончится 9 мая в 20:30."},
+                {"firefox", 3, "Только начиная с завтрашнего дня. Но скоро станем расторопнее."},
+                {"firefox", 4, "Пока что нет! Но если что-то срочное — всегда можно позвонить в поддержку по красивому номеру 1010."},
+                {"firefox", 5, "Самокат приезжает к вам с полной зарядкой. Этого хватает на восемь суток — даже если будете кататься без передышек и во сне. Зарядка не понадобится."},
+                {"firefox", 6, "Да, пока самокат не привезли. Штрафа не будет, объяснительной записки тоже не попросим. Все же свои."},
+                {"firefox", 7, "Да, обязательно. Всем самокатов! И Москве, и Московской области."}
         });
     }
 
-    public QuestionsTest(String browser) {
+    private int questionIndex;
+    private String expectedAnswer;
+
+    public QuestionsTest(String browser, int questionIndex, String expectedAnswer) {
         this.browser = browser;
+        this.questionIndex = questionIndex;
+        this.expectedAnswer = expectedAnswer;
     }
 
     @Before
@@ -53,59 +73,10 @@ public class QuestionsTest {
     }
 
     @Test
-    public void checkAnswersOfQuestions() {
-        mainPage.clickOnQuestion(0);
-        String zeroAnswerText = mainPage.getTextOfAnswer(0);
-        Assert.assertEquals("Сутки — 400 рублей. Оплата курьеру — наличными или картой.", zeroAnswerText);
-    }
-
-    @Test
-    public void checkAnswersOfQuestions1() {
-        mainPage.clickOnQuestion(1);
-        String firstAnswerText = mainPage.getTextOfAnswer(1);
-        Assert.assertEquals("Пока что у нас так: один заказ — один самокат. Если хотите покататься с друзьями, можете просто сделать несколько заказов — один за другим.", firstAnswerText);
-    }
-
-    @Test
-    public void checkAnswersOfQuestions2() {
-        mainPage.clickOnQuestion(2);
-        String secondAnswerText = mainPage.getTextOfAnswer(2);
-        Assert.assertEquals("Допустим, вы оформляете заказ на 8 мая. Мы привозим самокат 8 мая в течение дня. Отсчёт времени аренды начинается с момента, когда вы оплатите заказ курьеру. Если мы привезли самокат 8 мая в 20:30, суточная аренда закончится 9 мая в 20:30.", secondAnswerText);
-    }
-
-    @Test
-    public void checkAnswersOfQuestions3() {
-        mainPage.clickOnQuestion(3);
-        String thirdAnswerText = mainPage.getTextOfAnswer(3);
-        Assert.assertEquals("Только начиная с завтрашнего дня. Но скоро станем расторопнее.", thirdAnswerText);
-    }
-
-    @Test
-    public void checkAnswersOfQuestions4() {
-        mainPage.clickOnQuestion(4);
-        String fourthAnswerText = mainPage.getTextOfAnswer(4);
-        Assert.assertEquals("Пока что нет! Но если что-то срочное — всегда можно позвонить в поддержку по красивому номеру 1010.", fourthAnswerText);
-    }
-
-    @Test
-    public void checkAnswersOfQuestions5() {
-        mainPage.clickOnQuestion(5);
-        String fifthAnswerText = mainPage.getTextOfAnswer(5);
-        Assert.assertEquals("Самокат приезжает к вам с полной зарядкой. Этого хватает на восемь суток — даже если будете кататься без передышек и во сне. Зарядка не понадобится.", fifthAnswerText);
-    }
-
-    @Test
-    public void checkAnswersOfQuestions6() {
-        mainPage.clickOnQuestion(6);
-        String sixthAnswerText = mainPage.getTextOfAnswer(6);
-        Assert.assertEquals("Да, пока самокат не привезли. Штрафа не будет, объяснительной записки тоже не попросим. Все же свои.", sixthAnswerText);
-    }
-
-    @Test
-    public void checkAnswersOfQuestions7() {
-        mainPage.clickOnQuestion(7);
-        String seventhAnswerText = mainPage.getTextOfAnswer(7);
-        Assert.assertEquals("Да, обязательно. Всем самокатов! И Москве, и Московской области.", seventhAnswerText);
+    public void checkAnswer() {
+        mainPage.clickOnQuestion(questionIndex);
+        String actualAnswerText = mainPage.getTextOfAnswer(questionIndex);
+        Assert.assertEquals(expectedAnswer, actualAnswerText);
     }
 
     @After
