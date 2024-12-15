@@ -2,6 +2,7 @@ package pageobject;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+
 import static org.junit.Assert.assertTrue;
 
 public class AboutRentPage {
@@ -10,7 +11,8 @@ public class AboutRentPage {
     private By dateInput = By.xpath(".//input[@placeholder='* Когда привезти самокат']");
     private By rentalPeriodDropdown = By.xpath(".//span[@class='Dropdown-arrow']");
     private By commentInput = By.xpath(".//div[@class='Input_InputContainer__3NykH']/input[@class='Input_Input__1iN_Z Input_Responsible__1jDKN']");
-    private By orderButton = By.xpath(".//button[@class='Button_Button__ra12g Button_Middle__1CSJM']");
+    private By orderButtonTop = By.xpath(".//button[class='Button_Button__ra12g']");
+    private By orderButtonBottom = By.xpath(".//button[@class='Button_Button__ra12g Button_Middle__1CSJM']");
     private By yesButton = By.xpath(".//button[@class='Button_Button__ra12g Button_Middle__1CSJM' and text()='Да']");
     private By orderConfirmWindow = By.xpath(".//*[text()='Заказ оформлен']");
 
@@ -36,7 +38,11 @@ public class AboutRentPage {
     }
 
     public void clickOnOrderButton() {
-        webDriver.findElement(orderButton).click();
+        webDriver.findElement(orderButtonBottom).click();
+    }
+
+    public void clickOnOrderTop() {
+        webDriver.findElement(orderButtonTop).click();
     }
 
     public void clickOnYesButton() {

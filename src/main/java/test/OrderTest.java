@@ -1,8 +1,5 @@
 package test;
 
-import pageobject.AboutRentPage;
-import pageobject.ForWhomPage;
-import pageobject.MainPage;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.After;
 import org.junit.Before;
@@ -12,6 +9,9 @@ import org.junit.runners.Parameterized;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import pageobject.AboutRentPage;
+import pageobject.ForWhomPage;
+import pageobject.MainPage;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -53,35 +53,34 @@ public class OrderTest {
 
     @Test
     public void checkOrderOfScooterMaximTest() {
-        mainPage = new MainPage(webDriver);
-
-        webDriver.get(APP_URL);
-        mainPage.hideCookieWindow();
-        mainPage.clickOnOrderButton();
-
-        forWhomPage = new ForWhomPage(webDriver);
-        forWhomPage.fillFirstOrderPage("Максим", "Константинов", "Ротмистрова 27", "Спортивная", "+79201869974");
-
-        aboutRentPage = new AboutRentPage(webDriver);
-        aboutRentPage.fillSecondOrderPage("08.12.2024", "сутки", "серая безысходность", "Жду самокат");
-
-        aboutRentPage.clickOnYesButton();
-        aboutRentPage.checkOrderIsConfirm();
+        executeOrderTest("Максим", "Константинов", "Ротмистрова 27", "Спортивная", "+79209999999",
+                "08.12.2024", "сутки", "серая безысходность", "Жду самокат", true);
     }
 
     @Test
     public void checkOrderOfScooterOlgaTest() {
+        executeOrderTest("Ольга", "Хрусталева", "Калинина 94", "Черкизовская", "+79177777777",
+                "15.12.2024", "двое суток", "чёрный жемчуг", "Пишите когда будете подьезжать", false);
+    }
+
+    private void executeOrderTest(String firstName, String lastName, String address, String metroStation,
+                                  String phoneNumber, String date, String rentalPeriod, String scooterColor,
+                                  String comment, boolean useTopButton) {
         mainPage = new MainPage(webDriver);
 
         webDriver.get(APP_URL);
         mainPage.hideCookieWindow();
-        mainPage.clickOnOrderButton();
+        if (useTopButton) {
+            mainPage.clickOnOrderTopButton();
+        } else {
+            mainPage.clickOnOrderBottomButton();
+        }
 
         forWhomPage = new ForWhomPage(webDriver);
-        forWhomPage.fillFirstOrderPage("Ольга", "Хрусталева", "Калинина 94", "Черкизовская", "+79105368481");
+        forWhomPage.fillFirstOrderPage(firstName, lastName, address, metroStation, phoneNumber);
 
         aboutRentPage = new AboutRentPage(webDriver);
-        aboutRentPage.fillSecondOrderPage("15.12.2024", "двое суток", "чёрный жемчуг", "Пишите когда будете подьезжать");
+        aboutRentPage.fillSecondOrderPage(date, rentalPeriod, scooterColor, comment);
 
         aboutRentPage.clickOnYesButton();
         aboutRentPage.checkOrderIsConfirm();

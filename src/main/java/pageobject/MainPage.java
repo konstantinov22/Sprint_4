@@ -1,8 +1,8 @@
 package pageobject;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -10,10 +10,10 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public class MainPage {
     WebDriver webDriver;
 
-    // Локаторы
     private By sectionOfQuestions = By.xpath(".//div[@class='accordion']");
     private By cookieButtonLocator = By.xpath(".//div/button[@id='rcc-confirm-button']");
-    private By orderButtonLocator = By.xpath(".//div[@class='Header_Nav__AGCXC']/button[@class='Button_Button__ra12g']");
+    private By orderTopButton = By.xpath(".//div[@class='Header_Nav__AGCXC']/button[@class='Button_Button__ra12g']");
+    private By orderBottomButton = By.xpath("//div[5]/button");
     private String questionLocatorTemplate = ".//div[@class='accordion__button' and @id='accordion__heading-%d']";
     private String answerLocatorTemplate = ".//div[@id='accordion__panel-%d']";
 
@@ -43,9 +43,16 @@ public class MainPage {
         return webDriver.findElement(answerLocator).getText();
     }
 
-    public void clickOnOrderButton() {
+    public void clickOnOrderTopButton() {
         WebDriverWait wait = new WebDriverWait(webDriver, 10);
-        WebElement orderButton = wait.until(ExpectedConditions.visibilityOfElementLocated(orderButtonLocator));
+        WebElement orderButton = wait.until(ExpectedConditions.visibilityOfElementLocated(orderTopButton));
+        ((JavascriptExecutor) webDriver).executeScript("arguments[0].scrollIntoView(true);", orderButton);
+        orderButton.click();
+    }
+
+    public void clickOnOrderBottomButton() {
+        WebDriverWait wait = new WebDriverWait(webDriver, 10);
+        WebElement orderButton = wait.until(ExpectedConditions.visibilityOfElementLocated(orderBottomButton));
         ((JavascriptExecutor) webDriver).executeScript("arguments[0].scrollIntoView(true);", orderButton);
         orderButton.click();
     }
